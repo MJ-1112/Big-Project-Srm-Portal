@@ -1,0 +1,5 @@
+{
+  "/fac_dashboard/page": "app/fac_dashboard/page.js",
+  "/page": "app/page.js",
+  "/faculty/page": "app/faculty/page.js"
+}
