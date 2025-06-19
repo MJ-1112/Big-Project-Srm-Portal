@@ -39,14 +39,14 @@ const FacDashboardPage = () => {
  useEffect(() => {
    if (currentUser === null) {
       console.log("Dashboard: User is definitively null after auth check. Redirecting to /faculty-login.");
-      router.push('/faculty-login');
+      router.push('http://localhost:3000/');
     }
   }, [currentUser, router]); 
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.push('/'); 
+      router.push('http://localhost:3000/'); 
     } catch (error) {
       console.error("Error signing out:", error);
       alert("Failed to log out. Please try again.");
