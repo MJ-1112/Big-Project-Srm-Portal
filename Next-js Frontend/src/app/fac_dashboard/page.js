@@ -61,43 +61,45 @@ const FacDashboardPage = () => {
     }
   };
 
-  const handleUploadPdf = () => {
-    if (!selectedFile) {
-      setErrorMessage('Please select a PDF file first.');
-      return;
+  const handleUploadPdf = async () => {
+  if (!selectedFile) {
+    setErrorMessage('Please select a PDF file first.');
+    return;
+  }
+
+  if (!currentUser || !currentUser.email) {
+    setErrorMessage('Cannot upload: user email not available.');
+    return;
+  }
+
+  setUploadStatus('Uploading to server...');
+  setErrorMessage('');
+
+  const formData = new FormData();
+  formData.append('pdf', selectedFile);
+
+  try {
+    const response = await fetch('http://localhost:5000/extract-attendance', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      setUploadStatus(`✅ Upload & extraction successful. File: ${result.csv_filename}`);
+    } else {
+      throw new Error(result.error || 'Something went wrong during processing.');
     }
+  } catch (error) {
+    console.error('Upload error:', error);
+    setErrorMessage(`Server error: ${error.message}`);
+    setUploadStatus('');
+  }
 
-     if (!currentUser || !currentUser.email) {
-        setErrorMessage('Cannot upload: user email not available.');
-        return;
-    }
+  setSelectedFile(null); // Clear file
+};
 
-    setUploadStatus('Uploading...');
-    setErrorMessage('');
-
-    const storageRef = ref(storage, `faculty_uploads/${currentUser.email}/${selectedFile.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
-
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setUploadStatus(`Upload is ${progress.toFixed(2)}% done`);
-      },
-      (error) => {
-        console.error("File upload error:", error);
-        setErrorMessage(`Upload failed: ${error.message}`);
-        setUploadStatus('');
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setUploadStatus(`Upload complete! File available at: ${downloadURL}`);
-          console.log('File available at:', downloadURL);
-          setSelectedFile(null);
-        });
-      }
-    );
-  };
 
   if (currentUser === undefined) {
     return (

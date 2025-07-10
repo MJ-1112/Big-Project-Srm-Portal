@@ -1,4 +1,4 @@
-// File: C:\Users\DELL\Downloads\Big Project\Big Project\Backend-studentportal\Big-Project-Student-Portal\start\Big-Project-Student-Portal\Next-js Frontend\src\app\faculty\page.js
+// File: C:\Users\DELL\Documents\Web dev\FSD\Big Project\Big-Project-Student-Portal\Next-js Frontend\src\app\faculty\page.js
 import * as entry from '../../../../src/app/faculty/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
