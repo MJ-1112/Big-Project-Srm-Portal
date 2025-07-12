@@ -37,3 +37,28 @@ Object.keys(doc.updates)
 ```
 * For each field name in the current document’s updates object, add it to the allFieldsSet
 * If a field name appears in multiple documents, the Set will only keep one copy (ensuring uniqueness).
+
+2. Convert Array of Arrays to Worksheet
+```
+const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+```
+* Purpose: Converts a two-dimensional array (excelData) into a worksheet object.
+
+* Details: Each sub-array in excelData represents a row in the Excel sheet. For example, [['Name', 'Age'], ['Alice', 30]] would create a worksheet with a header row and one data row.
+
+3. Craete a new Workbook
+```
+const workbook = XLSX.utils.book_new();
+
+```
+
+* Details: A workbook is like an Excel file that can contain multiple worksheets (tabs).
+
+4. Appennd Worksheet in WORKBOOK
+
+```
+XLSX.utils.book_append_sheet(workbook, worksheet, "Updates");
+
+```
+* Purpose: Adds the worksheet to the workbook and names the sheet "Updates".
